@@ -2,34 +2,34 @@
 CCC 11.3: Given a sorted array of n integers that have been rotated
 write code to find an element in the array.
 '''
-def modified_binary_search(rotated_array, element):
+def modified_binary_search(rotated_array, element, verbose=False):
     '''
     Modified Binary Search
     '''
     middle = len(rotated_array)/2
     middle_element = rotated_array[middle]
     left_slice = rotated_array[:middle]
-    right_slice = rotated_array[middle+1:]
-    print left_slice, right_slice
+    right_slice = rotated_array[middle:]
+    if verbose: print left_slice, right_slice
     if left_slice[0] <= middle_element:
         ''' Left slice is in order'''
-        print "Left Slice"
+        if verbose: print "Left Slice"
         trigger = False
         in_order = left_slice
         other_slice = right_slice
     else:
         '''Right side in order'''
-        print "Right Slice"
+        if verbose: print "Right Slice"
         trigger = True
         in_order = right_slice
         other_slice = left_slice
     if in_order[0] <= element and in_order[-1] >= element:
-        print "Reg Binary Search"
+        if verbose: print "Reg Binary Search"
         if trigger:
             return reg_binary_search(in_order, element) + middle
         return reg_binary_search(in_order, element)
     else:
-        print "Modified Binary Search"
+        if verbose: print "Modified Binary Search"
         if trigger is False:
             return modified_binary_search(other_slice, element) + middle
         return modified_binary_search(other_slice, element)
@@ -50,5 +50,20 @@ def reg_binary_search(array, element):
         return middle
 
 if __name__=="__main__":
+
     test_list = [4,5,7,9,1,2]
-    print "Expected 4 - got ", modified_binary_search(test_list, 1)
+    result = modified_binary_search(test_list, 1)
+    print "Expected 4 - got ", result
+
+    test_list = [1,2,3,4,5,6,7]
+    result = modified_binary_search(test_list, 1)
+    print "Expected 0 - got ", result
+
+    test_list = [2,3,4,5,6,7,1]
+    result = modified_binary_search(test_list, 1)
+    print "Expected 6 - got ", result
+
+    test_list = [8,1,2,3,4,5,6,7]
+    result = modified_binary_search(test_list, 1)
+    print "Expected 1 - got ", result
+
